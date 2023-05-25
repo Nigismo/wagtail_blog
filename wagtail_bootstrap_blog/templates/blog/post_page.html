@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags wagtailimages_tags blogapp_tags %}
+
+{% block content %}
+    {% image page.header_image original as header_image %}
+    <img src="{{ header_image.url }}" class="img-fluid">
+
+    <h1>{{ page.title }}</h1>
+
+    <p>
+      {% post_categories_list %}
+    </p>
+
+    {# body #}
+    {% include "blog/components/streamfield.html" %}
+
+    <hr>
+
+    {% post_tags_list %}
+    <hr>
+
+{% endblock %}
