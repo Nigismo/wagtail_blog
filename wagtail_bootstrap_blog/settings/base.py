@@ -23,6 +23,8 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 # Application definition
 
+
+
 INSTALLED_APPS = [
     "home",
     "search",
@@ -30,6 +32,7 @@ INSTALLED_APPS = [
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.contrib.routable_page",
+    "wagtail.contrib.modeladmin",
     "wagtail.embeds",
     "wagtail.sites",
     "wagtail.users",
@@ -41,12 +44,21 @@ INSTALLED_APPS = [
     "wagtail",
     "modelcluster",
     "taggit",
+    "django_extensions",
+    "wagtailmarkdown",
+    "captcha",
+    "crispy_forms",
+    "crispy_bootstrap4",
+    "wagtailcaptcha",
+    "wagtailmenus",
+    "wagtailmetadata",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sitemaps",
 ]
 
 MIDDLEWARE = [
@@ -64,17 +76,19 @@ ROOT_URLCONF = "wagtail_bootstrap_blog.urls"
 
 TEMPLATES = [
     {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(PROJECT_DIR, "templates"),
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(PROJECT_DIR, 'templates'),
         ],
-        "APP_DIRS": True,
-        "OPTIONS": {
-            "context_processors": [
-                "django.template.context_processors.debug",
-                "django.template.context_processors.request",
-                "django.contrib.auth.context_processors.auth",
-                "django.contrib.messages.context_processors.messages",
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+                'wagtailmenus.context_processors.wagtailmenus',
+                'blog.context_processors.blog_page'
             ],
         },
     },
@@ -116,9 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ru-ru"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Moscow"
 
 USE_I18N = True
 
@@ -150,7 +164,7 @@ STATIC_URL = "/static/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Wagtail settings
 
 WAGTAIL_SITE_NAME = "wagtail_bootstrap_blog"
@@ -163,6 +177,16 @@ WAGTAILSEARCH_BACKENDS = {
     }
 }
 
+CRISPY_TEMPLATE_PACK = "bootstrap4"
+
+WAGTAILIMAGES_FORMAT_CONVERSIONS = {
+    'bmp': 'webp',
+    'jpeg': 'webp',
+    'jpg': 'webp',
+    'JPG': 'webp',
+    'webp': 'webp',
+    'png': 'webp',
+}
 # Base URL to use when referring to full URLs within the Wagtail admin backend -
 # e.g. in notification emails. Don't include '/admin' or a trailing slash
 WAGTAILADMIN_BASE_URL = "http://example.com"

@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags blogapp_tags %}
+{% load wagtailcore_tags wagtailimages_tags blogapp_tags static wagtailmetadata_tags %}
+
+{% block meta_tag %}
+  {% meta_tags %}
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" type="text/css" href="{% static 'css/code_theme.css' %}" />
+{% endblock %}
 
 {% block content %}
     {% image page.header_image original as header_image %}
@@ -16,7 +24,7 @@
     {% include "blog/components/streamfield.html" %}
 
     <hr>
-
+   
     {% post_tags_list %}
     <hr>
 

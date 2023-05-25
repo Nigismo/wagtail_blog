@@ -14,6 +14,10 @@
       <div>
         {{ block.value|richtext }}
       </div>
+      {% elif block.block_type == 'youtoubeblock' %}
+      <div>
+        {{ block.value }}
+      </div>  
     {% elif block.block_type == 'image_text' %}
       <div>
         {% include 'blog/blocks/image_text.html' with block=block only %}

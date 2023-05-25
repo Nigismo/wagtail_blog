@@ -5,7 +5,7 @@ from wagtail.blocks import (BooleanBlock, CharBlock, ChoiceBlock,
                                  StructValue, TextBlock, URLBlock)
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageChooserBlock
-
+from wagtailmarkdown.blocks import MarkdownBlock
 
 class ImageText(StructBlock):
     reverse = BooleanBlock(required=False)
@@ -17,7 +17,9 @@ class BodyBlock(StreamBlock):
     h1 = CharBlock()
     h2 = CharBlock()
     paragraph = RichTextBlock()
-    youtubeblock = EmbedBlock()
+    videoblock = EmbedBlock()
+    markdown = MarkdownBlock(icon="code")
+
 
     image_text = ImageText()
     image_carousel = ListBlock(ImageChooserBlock())
