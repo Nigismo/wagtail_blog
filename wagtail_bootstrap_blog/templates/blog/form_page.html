@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags crispy_forms_tags %}
+
+{% block content %}
+
+
+<h1>Связаться с нами</h1>
+<br>
+
+<form action="{% pageurl page %}" method="POST" >
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit" class="btn btn-primary" >Отправить</button>
+</form>
+
+{% endblock %}
