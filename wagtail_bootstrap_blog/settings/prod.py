@@ -1,5 +1,5 @@
 from .base import *  # noqa
-import os
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -41,3 +41,9 @@ DATABASES = {
 }
 
 WAGTAILADMIN_BASE_URL = f"http://{os.environ['VIRTUAL_HOST']}"
+
+
+try:
+    from .local import *
+except ImportError:
+    pass
