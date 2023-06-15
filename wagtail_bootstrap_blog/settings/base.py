@@ -24,7 +24,6 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Application definition
 
 
-
 INSTALLED_APPS = [
     "home",
     "search",
@@ -167,7 +166,7 @@ MEDIA_URL = "/media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Wagtail settings
 
-WAGTAIL_SITE_NAME = "wagtail_bootstrap_blog"
+WAGTAIL_SITE_NAME = "nigismo"
 
 # Search
 # https://docs.wagtail.org/en/stable/topics/search/backends.html

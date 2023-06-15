@@ -1,7 +1,7 @@
 import datetime
 
 from django.db import models
-from django.db.models.query import EmptyQuerySet
+# from django.db.models.query import EmptyQuerySet
 from django.http import Http404
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.utils.dateformat import DateFormat
@@ -38,14 +38,13 @@ class BlogPage(RoutablePageMixin, Page):
         context['posts'] = self.get_paginated_posts(request, self.posts)
         return context
 
-    def get_posts(self):
-        return PostPage.objects.descendant_of(self).live().order_by("-post_date")
+    # def get_posts(self):
+    #     return PostPage.objects.descendant_of(self).live().order_by("-post_date")
 
     def get_posts(self):
         return PostPage.objects.descendant_of(self).live().order_by("-post_date").prefetch_related('categories__blog_category')
 
-    
-
+ 
     def get_paginated_posts(self, request, qs):
         paginator = Paginator(qs, 6)
         page = request.GET.get("page")
@@ -58,7 +57,7 @@ class BlogPage(RoutablePageMixin, Page):
 
         return posts
 
-    
+
     @route(r'^$')
     def post_list(self, request, *args, **kwargs):
         self.posts = self.get_posts()
@@ -126,10 +125,9 @@ class BlogPage(RoutablePageMixin, Page):
 
         return urls
 
-    
-        
+
 class PostPage(MetadataPageMixin, Page):
-    
+
     header_image = models.ForeignKey(
         "wagtailimages.Image",
         null=True,
@@ -148,7 +146,7 @@ class PostPage(MetadataPageMixin, Page):
         FieldPanel("tags"),
         FieldPanel("body"),
     ]
-    
+
     post_date = models.DateTimeField(
         verbose_name="Post date", default=datetime.datetime.today
     )
@@ -156,7 +154,7 @@ class PostPage(MetadataPageMixin, Page):
     settings_panels = Page.settings_panels + [
         FieldPanel("post_date"),
     ]
-    
+
     search_fields = Page.search_fields + [
         index.SearchField('title'),
         index.SearchField('body'),
@@ -178,7 +176,7 @@ class PostPage(MetadataPageMixin, Page):
 
         blog_page = self.blog_page
         return post_page_date_slug_url(self, blog_page)
-    
+
     def get_sitemap_urls(self, request=None):
         return []
 
@@ -226,9 +224,9 @@ class Tag(TaggitTag):
         proxy = True
 
 
-
 class FormField(AbstractFormField):
     page = ParentalKey('FormPage', on_delete=models.CASCADE, related_name='form_fields')
+
 
 class FormPage(WagtailCaptchaEmailForm):
     thank_you_text = RichTextField(blank=True)
@@ -256,10 +254,9 @@ class FormPage(WagtailCaptchaEmailForm):
 
     def get_context(self, request, *args, **kwargs):
         context = super(FormPage, self).get_context(request, *args, **kwargs)
-        
+
         return context
 
     def get_form_fields(self):
         return self.form_fields.all()
 
- 
