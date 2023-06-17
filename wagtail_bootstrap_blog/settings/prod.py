@@ -1,4 +1,6 @@
 from .base import *  # noqa
+import os
+ 
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -8,10 +10,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['nigismo.codered.cloud']
 
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.environ["RANDOM_SECRET_KEY"]
 
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
