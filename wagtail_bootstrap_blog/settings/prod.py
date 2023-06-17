@@ -18,7 +18,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 # Built-in email sending service provided by CodeRed Cloud.
 # Change this to a different backend or SMTP server to use your own.
-EMAIL_BACKEND = "django_sendmail_backend.backends.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
@@ -42,8 +42,3 @@ DATABASES = {
 
 WAGTAILADMIN_BASE_URL = f"http://{os.environ['VIRTUAL_HOST']}"
 
-
-try:
-    from .local import *
-except ImportError:
-    pass

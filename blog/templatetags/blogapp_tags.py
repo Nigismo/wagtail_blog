@@ -5,6 +5,8 @@ from django.http import QueryDict
 from ..utils import render_markdown
 
 register = Library()
+
+
 @register.inclusion_tag('blog/components/tags_list.html',
                         takes_context=True)
 def tags_list(context):
@@ -27,7 +29,8 @@ def categories_list(context):
     }
 
 
-@register.inclusion_tag("blog/components/post_categories_list.html", takes_context=True)
+@register.inclusion_tag("blog/components/post_categories_list.html",
+                         takes_context=True)
 def post_categories_list(context):
     page = context["page"]
     post_categories = page.categories.all()
@@ -37,7 +40,8 @@ def post_categories_list(context):
     }
 
 
-@register.inclusion_tag("blog/components/post_tags_list.html", takes_context=True)
+@register.inclusion_tag("blog/components/post_tags_list.html", 
+                        takes_context=True)
 def post_tags_list(context):
     page = context["page"]
     post_tags = page.tags.all()
@@ -45,6 +49,7 @@ def post_tags_list(context):
         "request": context["request"],
         "post_tags": post_tags,
     }
+
 
 @register.simple_tag
 def url_replace(request, **kwargs):
@@ -76,8 +81,9 @@ def post_page_date_slug_url(post_page, blog_page):
     )
     return url
 
-
+ 
 @register.filter(name='markdown')
 def markdown(value):
-    return render_markdown(value) 
-   
+    return render_markdown(value)
+    
+
