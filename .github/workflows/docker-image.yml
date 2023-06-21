@@ -1,18 +1,62 @@
-name: Docker Image CI
+# name: Docker Image CI
 
+# on:
+#   push:
+#     branches: [ "master" ]
+#   pull_request:
+#     branches: [ "master" ]
+
+# jobs:
+
+#   build:
+
+#     runs-on: ubuntu-latest
+
+#     steps:
+#     - uses: actions/checkout@v3
+#     - name: Build the Docker image
+#       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
+name: Test & Deploy
+# This action will be run on the `main` branch
+# or on any pull requests going into the `main` branch.
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
-
+    branches:
+      - master
 jobs:
-
-  build:
-
+  quality-control:
+    name: Quality Control
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements-dev.txt
+      - run: python manage.py check
+      - run: python manage.py makemigrations --check
+
+  deploy:
+    name: Deploy to CodeRed Cloud
+    # Only run the deployment if the previous checks succeeded.
+    needs: quality-control
+    # Only run in the main branch (i.e. not pull requests).
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # CodeRed Cloud command line tool.
+      # See: https://www.codered.cloud/docs/cli/
+      - name: Install cr tool
+        run: |
+          wget -nv -O /usr/local/bin/cr "https://www.codered.cloud/cli/cr-linux"
+          chmod +x /usr/local/bin/cr
+      # Run the deployment.
+      - name: Deploy
+        run: cr deploy wagtail_blog
+        env:
+          CR_TOKEN: ${{ secrets.cr_token }}
