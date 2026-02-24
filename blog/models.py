@@ -113,7 +113,7 @@ class BlogPage(RoutablePageMixin, Page):
         return self.render(request)
 
     def get_sitemap_urls(self, request=None):
-        posts = self.get_posts().values_list('post_date', 'slug', named=True)
+        posts = self.get_posts().values_list('post_date', 'slug', 'last_published_at', named=True)
         base_url = self.get_full_url(request)
         urls = []
         for post in posts:
@@ -259,4 +259,3 @@ class FormPage(WagtailCaptchaEmailForm):
 
     def get_form_fields(self):
         return self.form_fields.all()
-
